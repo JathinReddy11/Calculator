@@ -42,6 +42,7 @@ let op_buttons = document.querySelectorAll(".op_buttons")
 
 num_buttons.forEach((button)=>{
     button.addEventListener("click", ()=> {
+        if (display.textContent === "ERROR") display.textContent = ""
         if (button.textContent === "."){
             button.addEventListener("click", ()=>{
                 if(!current_input.includes(".")){
@@ -69,8 +70,10 @@ op_buttons.forEach((button)=>{
         button.addEventListener("click", ()=>{
             if(current_input != "" && operator != null){
                 if(num1 != null && operator === '/' &&  parseFloat(current_input)=== 0){
-                    alert("You cannot divide a number with zero, please choose another number")
-                    display.textContent = num1 + operator
+                    display.textContent = "ERROR"
+                    num1 = null
+                    num2 = null
+                    operator = null
                     current_input = ""
                 }
                 else{
@@ -95,16 +98,18 @@ op_buttons.forEach((button)=>{
 
     else if (button.textContent === "Del"){
         button.addEventListener("click", () =>{
-            if (isNaN(display.textContent.at(-1))){
-                operator = null
-                current_input = display.textContent
-            } 
+            if (display.textContent === "ERROR") display.textContent = ""
             else{
-                current_input = current_input.slice(0, -1)
-            }
-            display.textContent = display.textContent.slice(0, -1)
+                if (isNaN(display.textContent.at(-1))){
+                    operator = null
+                    current_input = display.textContent
+                } 
+                else{
+                    current_input = current_input.slice(0, -1)
+                }
+                display.textContent = display.textContent.slice(0, -1)
+        }
         })
-        console.log(operator)
     }
 
     else{
